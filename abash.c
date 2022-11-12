@@ -12,8 +12,8 @@ int main(){
 
     cipher = abash(plain, cipher);
     
-    printf("Before: %s\n", plain);
-    printf("After: %s", cipher);
+    printf("Plain Text: %s\n", plain);
+    printf("Cipher Text: %s", cipher);
 
     return 0;
 }
