@@ -8,7 +8,7 @@ int main(){
     int x;
     char *plain, *cipher;
     printf("Enter text: ");
-    gets(plain);
+    scanf("%s", plain);
 
     cipher = abash(plain, cipher);
     
