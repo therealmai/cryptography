@@ -1,0 +1,107 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<ctype.h>
+#include<conio.h>
+
+void encrypt();
+void decrpyt();
+int getShifts();
+int main(){	
+
+	int choice;
+	
+	printf("Press 0 Encryption || Press 1 for Decryption: ");    
+	scanf("%d", &choice);   
+	
+	
+	switch(choice){
+		case 0 : encrypt(); break;
+		case 1 : decrpyt(); break;
+		default : printf("Incorrect input");
+	}
+		
+    return 0;	 	
+}
+
+void encrypt(){
+	char plain[32], cipher[32];
+	char filename[32];
+	int x, size, check, shifts;
+	FILE *fp;
+	
+	printf("\nEnter Plain Text: ");		fflush(stdin);      scanf("%[^\n]",plain);
+	printf("\nEnter Filename: ");		fflush(stdin);      scanf("%[^\n]",filename);
+	printf("\n");
+	shifts = getShifts();
+	
+	printf("Plain: %s\n", plain);
+	printf("Filename: %s\n", filename);
+	printf("Shifts: %d\n", shifts);
+	
+	
+	size = strlen(plain);
+	for(x = 0; x < size; x++) {
+        if(isalpha(plain[x])) {
+            cipher[x] = isupper(plain[x]) ? 'A'+ (plain[x] - shifts -'A' + 26 * (shifts % 26 + 1) ) % 26 : 'a' + ( plain[x] - shifts - 'a' + 26 * (shifts % 26 + 1 ) ) % 26;
+        } else if( isdigit(plain[x]) ) {
+            cipher[x] = '0' + (plain[x] - shifts -'0' + 10 * (shifts % 26 + 1 ) ) % 10;
+        } else {
+            cipher[x] = plain[x];
+        }
+    }
+
+    fp = fopen(filename,"w");
+	if(fp != NULL){
+		check = fputs(cipher, fp);
+		if(check != EOF){
+			printf("Before: %s\n", plain);
+    		printf("After: %s\n", cipher);
+		}else{
+			printf("Failed writing to file");
+		}
+	}else{
+		printf("Unable to open file");
+	}
+	fclose(fp);
+}
+	
+void decrpyt(){
+	char plain[32], cipher[32];
+	char filename[32];
+	int x, size, shifts;
+	FILE *fp;
+	
+	printf("\nEnter Filename: ");		fflush(stdin);      scanf("%[^\n]",filename);
+	shifts = getShifts();
+	
+	fp = fopen(filename,"r");
+	if(fp != NULL){
+		if( fgets(plain, 32, fp) !=NULL ) {
+      			size = strlen(plain);
+			for(x = 0; x < size; x++) {
+        		if(isalpha(plain[x])) {
+            		cipher[x] = isupper(plain[x]) ? 'A' + (plain[x] + shifts-'A') % 26 : 'a' + (plain[x] + shifts- 'a' ) % 26;
+        		} else if (isdigit(plain[x])) {
+            		cipher[x] = '0' + (plain[x] + shifts - '0') % 10; 
+				} else {
+            		cipher[x] = plain[x];
+        		}    
+    		}
+   		}else{
+   			printf("Something wrong inside the file");
+		}
+	}else{
+		printf("Unable to open file");
+	}
+	fclose(fp);
+	printf("Before: %s\n", plain);
+    printf("After: %s\n", cipher);
+}
+
+int getShifts(){
+	int shift;
+	printf("Shifts: ");
+	scanf("%d", &shift);
+	return shift;
+}
