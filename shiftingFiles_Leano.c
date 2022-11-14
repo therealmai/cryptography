@@ -8,18 +8,28 @@ void encrypt();
 void decrpyt();
 int getShifts();
 int main(){	
-
 	int choice;
-	
-	printf("Press 0 Encryption || Press 1 for Decryption: ");    
-	scanf("%d", &choice);   
-	
-	
-	switch(choice){
-		case 0 : encrypt(); break;
-		case 1 : decrpyt(); break;
-		default : printf("Incorrect input");
+	do {
+	printf("\n----------SHIFTING CIPHER----------");
+	printf("\nEncrypt____1");
+	printf("\nDecrypt____2");
+	printf("\nExit_______3");
+	printf("\n\nEnter your choice: ");
+	scanf("%d", &choice);
+	printf("\n");
+	(void) getchar(); //clean the input of newline
+
+	switch (choice) {
+	case 1: 
+		encrypt(); break;
+	case 2: 
+		decrpyt(); break;
+	case 3: 
+		break;
+	default:
+		printf("Wrong Input\n");
 	}
+  } while(choice != 3);
 		
     return 0;	 	
 }
@@ -98,6 +108,8 @@ void decrpyt(){
 	printf("Before: %s\n", plain);
     printf("After: %s\n", cipher);
 }
+
+
 
 int getShifts(){
 	int shift;

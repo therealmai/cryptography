@@ -6,7 +6,7 @@
 
 
 void encrypt();
-void decrpyt();
+//void decrpyt();
 
 int main(){	
 
