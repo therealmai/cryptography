@@ -2,7 +2,6 @@
 #include<string.h>
 #include<stdlib.h>
 #include<ctype.h>
-#include<conio.h>
 #include<math.h>
 
 
@@ -49,7 +48,7 @@ void encrypt(){
 	printf("\nEnter Plain Text: ");		fflush(stdin);      scanf("%[^\n]",plain);
 	printf("\nEnter Filename: ");		fflush(stdin);      scanf("%[^\n]",filename);
 	printf("\nEnter Key: ");		fflush(stdin);      scanf("%[^\n]",key);
-	
+		
 	size = noSpaceLength(plain);
 	keySize = noSpaceLength(key);
 	strcpy(sortedKey, key);
@@ -93,16 +92,17 @@ void decrpyt(){
 	printf("\nEnter Filename: ");		fflush(stdin);      scanf("%[^\n]",filename);
 	printf("\nEnter Key: ");		fflush(stdin);      scanf("%[^\n]",key);
 	
-	
-	
 	fp = fopen(filename,"r");
 	if(fp != NULL){
-		
 		if( fgets(plain, 256, fp) !=NULL ) {
 			size = noSpaceLength(plain);
 			keySize = noSpaceLength(key);
 			strcpy(sortedKey, key);
 			sort(sortedKey, keySize);
+			
+			printf("%d\n", size);
+			printf("%d\n", keySize);
+			printf("%s\n", sortedKey);
 			
 			matrix = matrixPlain(plain, key, sortedKey, size, keySize);
 			maxRow = ceil(size/keySize) + 1;
@@ -185,26 +185,29 @@ char ** matrixPlain(char plain[], char key[], char sortedKey[], int size, int ke
     maxRow = ceil(size/keySize) + 1;
     sizeText = strlen(plain);
     
+    printf("maxRow: %d\n", maxRow);
+    printf("sizeText: %d\n", sizeText);
+    
     for(x = 0; x < maxRow; x++) {
         matrix[x] = (char *)malloc(sizeof(char) * keySize);
     }
-
+    
     for(x = 0; x < keySize; x++) {
         matrix[0][x] = key[x];
     }
     
+    
     for(x = 0, z = 0, l = 0; l < keySize; x++) {
         if(matrix[0][x] == sortedKey[l]) {
-            for(y = 1; y < maxRow && plain[z] != 0; z++) {
-                if(!isspace(plain[z])) {
-                    matrix[y++][x] = plain[z];
-                }
+            for(y = 1; !isspace(plain[z]) && z < sizeText; z++) {
+                matrix[y++][x] = plain[z];
             }
             matrix[0][x] = 0;
+            z++;
             l++;
             x = -1;
         }
     }
-
+	
     return matrix;
 }
