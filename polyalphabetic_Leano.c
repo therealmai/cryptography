@@ -46,6 +46,9 @@ void encrypt(){
 	printf("\nEnter Plain Text: ");		fflush(stdin);      scanf("%[^\n]",plain);
 	printf("\nEnter Filename: ");		fflush(stdin);      scanf("%[^\n]",filename);
 	printf("\nEnter Key: ");		fflush(stdin);      scanf("%[^\n]",key);
+	
+	
+	
 	size = strlen(plain);
 	keySize = strlen(key);
 	
