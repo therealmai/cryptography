@@ -100,10 +100,6 @@ void decrpyt(){
 			strcpy(sortedKey, key);
 			sort(sortedKey, keySize);
 			
-			printf("%d\n", size);
-			printf("%d\n", keySize);
-			printf("%s\n", sortedKey);
-			
 			matrix = matrixPlain(plain, key, sortedKey, size, keySize);
 			maxRow = ceil(size/keySize) + 1;
 			
@@ -173,7 +169,6 @@ char ** matrixCipher(char plain[], char key[], char sortedKey[], int size, int k
             y++; z = 0;
         }
     }
-    
     return matrix;
 }
 
@@ -185,9 +180,6 @@ char ** matrixPlain(char plain[], char key[], char sortedKey[], int size, int ke
     maxRow = ceil(size/keySize) + 1;
     sizeText = strlen(plain);
     
-    printf("maxRow: %d\n", maxRow);
-    printf("sizeText: %d\n", sizeText);
-    
     for(x = 0; x < maxRow; x++) {
         matrix[x] = (char *)malloc(sizeof(char) * keySize);
     }
@@ -195,7 +187,6 @@ char ** matrixPlain(char plain[], char key[], char sortedKey[], int size, int ke
     for(x = 0; x < keySize; x++) {
         matrix[0][x] = key[x];
     }
-    
     
     for(x = 0, z = 0, l = 0; l < keySize; x++) {
         if(matrix[0][x] == sortedKey[l]) {
@@ -208,6 +199,5 @@ char ** matrixPlain(char plain[], char key[], char sortedKey[], int size, int ke
             x = -1;
         }
     }
-	
     return matrix;
 }
