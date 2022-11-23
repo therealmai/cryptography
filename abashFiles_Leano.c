@@ -33,7 +33,7 @@ int choice;
 }
 
 void encrypt(){
-	char plain[32], cipher[32];
+	char plain[128], cipher[128];
 	char filename[32];
 	int x, size, check;
 	FILE *fp;
@@ -50,6 +50,7 @@ void encrypt(){
             cipher[x] = plain[x];
         }
     }
+    cipher[x] = '\0';
     
     fp = fopen(filename,"w");
 	if(fp != NULL){
@@ -67,7 +68,7 @@ void encrypt(){
 }
 	
 void decrpyt(){
-	char plain[32], cipher[32];
+	char plain[128], cipher[128];
 	char filename[32];
 	int x, size;
 	FILE *fp;
@@ -75,7 +76,7 @@ void decrpyt(){
 	printf("\nEnter Filename: ");		fflush(stdin);      scanf("%[^\n]",filename);
 	fp = fopen(filename,"r");
 	if(fp != NULL){
-		if( fgets(plain, 32, fp) !=NULL ) {
+		if( fgets(plain, 128, fp) != NULL ) {
       			size = strlen(plain);
 			for(x = 0; x < size; x++) {
         		if(isalpha(plain[x])) {
@@ -90,6 +91,7 @@ void decrpyt(){
 	}else{
 		printf("Unable to open file");
 	}
+	cipher[x] = '\0';
 	fclose(fp);
 	printf("Before: %s\n", plain);
     printf("After: %s\n", cipher);
