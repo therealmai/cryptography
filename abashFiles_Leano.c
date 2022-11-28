@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<ctype.h>
-#include<conio.h>
+
 
 void encrypt();
 void decrpyt();
