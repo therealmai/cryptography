@@ -81,13 +81,9 @@ def encrypted(rsa_key, vignere_key, mono_key):
     filename = input("Enter Filename:")
 
     cipher_text = encrypt(message, vignere_key)
-    print(f"Vignere Cipher: {cipher_text}\n")
     cipher_text = atbash(cipher_text)
-    print(f"Atbash Cipher: {cipher_text}")
     cipher_text = encrypt_with_monoalpha(cipher_text, mono_key)
-    print(f"Monoalphabetic Cipher: {cipher_text}")
     cipher_text = rsa.encrypt(cipher_text.encode('ascii'), rsa_key)
-    print(f"RSA Cipher: {cipher_text}")
 
     # Open File and Write Ciphertext into binary File
     _fp = open(filename, 'wb')
@@ -108,17 +104,10 @@ def decrypted(rsa_key, vignere_key, mono_key):
     _fp = open(filename, 'rb')
     if _fp is not None :
         encrypted_text = _fp.read()
-        print(f"Encrypted Text: {encrypted_text}\n")
         decrypted_val = rsa.decrypt(encrypted_text, rsa_key).decode('ascii')
-        print(f"Decrypted RSA: {decrypted_val}\n")
         decrypted_val = decrypt_with_monoalpha(decrypted_val, mono_key)
-        print(f"Decrypted MonoAlpha: {decrypted_val}\n")
         decrypted_val = atbash(decrypted_val)
-        print(f"Decrypted Atbash: {decrypted_val}\n")
         decrypted_val = decrypt(decrypted_val, vignere_key)
-        print(f"Decrypted Vignere: {decrypted_val}\n")
-        print(f'Encrypted Text: {encrypted_text}')
-        print(f'Mai Cipher: {decrypted_val}')
     else :
         print("Error in Reading File")
     _fp.close()
@@ -131,11 +120,12 @@ if __name__ == '__main__':
     MONO_CIPHER_KEY = ''
     CHOICE = 0
     while CHOICE != 4:
-        print("----------Mai Cipher----------")
-        print("Encrypt______________________1")
-        print("Decrypt______________________2")
-        print("Generate Keys________________3")
-        print("Exit_________________________4")
+        print("------------------------Mai Cipher--------------------------")
+        print("Before Encrypting/Decrypting you need to generate key firest")
+        print("Encrypt____________________________________________________1")
+        print("Decrypt____________________________________________________2")
+        print("Generate Keys______________________________________________3")
+        print("Exit_______________________________________________________4")
         CHOICE = input("Enter your choice: ")
 
         if CHOICE  == '1':
