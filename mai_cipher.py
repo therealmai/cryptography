@@ -85,7 +85,6 @@ def encrypted(rsa_key, vignere_key, mono_key):
     cipher_text = encrypt_with_monoalpha(cipher_text, mono_key)
     cipher_text = rsa.encrypt(cipher_text.encode('ascii'), rsa_key)
 
-    # Open File and Write Ciphertext into binary File
     _fp = open(filename, 'wb')
     if(_fp.writable() and _fp is not None) :
         _fp.write(cipher_text)
@@ -98,9 +97,9 @@ def encrypted(rsa_key, vignere_key, mono_key):
 
 
 def decrypted(rsa_key, vignere_key, mono_key):
-    filename = input("Enter Filename: ")
+    filename = input("Enter Filename to be decrypted: ")
+    encrypt_filename = input("Enter Filename to store: ")
 
-    #Open File and Read Ciphertext and Decrypt
     _fp = open(filename, 'rb')
     if _fp is not None :
         encrypted_text = _fp.read()
@@ -108,9 +107,22 @@ def decrypted(rsa_key, vignere_key, mono_key):
         decrypted_val = decrypt_with_monoalpha(decrypted_val, mono_key)
         decrypted_val = atbash(decrypted_val)
         decrypted_val = decrypt(decrypted_val, vignere_key)
+        print(f"encrypted_text{encrypted_text}\n")
+        print(f"decrypted_val{decrypted_val}\n")
     else :
         print("Error in Reading File")
+
     _fp.close()
+    _fp = open(encrypt_filename, 'wb')
+    if(_fp.writable() and _fp is not None) :
+        _fp.write(encrypted_text)
+        print(f'Encrypt Text: {encrypted_text}')
+        print(f'Decrypted Text: {decrypted_val}')
+    else:
+        print("Error in Writing File")
+
+    _fp.close()
+
 
 
 if __name__ == '__main__':
@@ -125,7 +137,8 @@ if __name__ == '__main__':
         print("Encrypt____________________________________________________1")
         print("Decrypt____________________________________________________2")
         print("Generate Keys______________________________________________3")
-        print("Exit_______________________________________________________4")
+        print("Load Keys__________________________________________________4")
+        print("Exit_______________________________________________________5")
         CHOICE = input("Enter your choice: ")
 
         if CHOICE  == '1':
@@ -134,8 +147,9 @@ if __name__ == '__main__':
             decrypted(PUBLIC_KEY, VIGNERE_KEY, MONO_CIPHER_KEY)
         elif CHOICE == '3':
             generate_keys()
-            (PRIVATE_KEY, PUBLIC_KEY, VIGNERE_KEY,MONO_CIPHER_KEY) = load_keys()
         elif CHOICE == '4':
+            (PRIVATE_KEY, PUBLIC_KEY, VIGNERE_KEY,MONO_CIPHER_KEY) = load_keys()
+        elif CHOICE == '5':
             break
         else:
             print("Wrong Input")
