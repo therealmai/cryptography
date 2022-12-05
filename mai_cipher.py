@@ -77,28 +77,33 @@ def atbash(plain):
 
 
 def encrypted(rsa_key, vignere_key, mono_key):
-    message = input("Enter the message to be encrypted: ")
     filename = input("Enter Filename:")
-
-    cipher_text = encrypt(message, vignere_key)
-    cipher_text = atbash(cipher_text)
-    cipher_text = encrypt_with_monoalpha(cipher_text, mono_key)
-    cipher_text = rsa.encrypt(cipher_text.encode('ascii'), rsa_key)
-
+    _fp = open(filename, 'r')
+    if(_fp is not None) :
+        message = _fp.read()
+        cipher_text = encrypt(message, vignere_key)
+        cipher_text = atbash(cipher_text)
+        cipher_text = encrypt_with_monoalpha(cipher_text, mono_key)
+        cipher_text = rsa.encrypt(cipher_text.encode('ascii'), rsa_key)
+    else:
+        print("Error in Writing File")
+    _fp.close()
+    
     _fp = open(filename, 'wb')
     if(_fp.writable() and _fp is not None) :
         _fp.write(cipher_text)
         print(f'Plain Text: {message}')
-        print(f'Mai Cipher: {cipher_text}')
+        print(f'Encrypted Text: {cipher_text}')
     else:
         print("Error in Writing File")
+
     _fp.close()
+    
 
 
 
 def decrypted(rsa_key, vignere_key, mono_key):
     filename = input("Enter Filename to be decrypted: ")
-    encrypt_filename = input("Enter Filename to store: ")
 
     _fp = open(filename, 'rb')
     if _fp is not None :
@@ -113,9 +118,9 @@ def decrypted(rsa_key, vignere_key, mono_key):
         print("Error in Reading File")
 
     _fp.close()
-    _fp = open(encrypt_filename, 'wb')
+    _fp = open(filename, 'w')
     if(_fp.writable() and _fp is not None) :
-        _fp.write(encrypted_text)
+        _fp.write(decrypted_val)
         print(f'Encrypt Text: {encrypted_text}')
         print(f'Decrypted Text: {decrypted_val}')
     else:
